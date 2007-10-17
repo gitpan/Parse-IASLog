@@ -9,7 +9,7 @@ our @EXPORT = qw(parse_ias);
 
 use vars qw($VERSION);
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 my %attributes = qw(
 -90 MS-MPPE-Encryption-Types
