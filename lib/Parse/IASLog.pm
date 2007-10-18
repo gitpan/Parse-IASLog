@@ -9,7 +9,7 @@ our @EXPORT = qw(parse_ias);
 
 use vars qw($VERSION);
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 my %attributes = qw(
 -90 MS-MPPE-Encryption-Types
@@ -597,6 +597,49 @@ my %attributes = qw(
 11255 USR-Request-Type
 );
 
+my %packet_types = qw(
+1 Accept-Request 
+2 Access-Accept 
+3 Access-Reject 
+4 Accounting-Request 
+);
+
+my %reason_codes = (
+ 0 => 'Success', 
+ 1 => 'Internal error', 
+ 2 => 'Access denied',
+ 3 => 'Malformed request',
+ 4 => 'Global catalog unavailable',
+ 5 => 'Domain unavailable',
+ 6 => 'Server unavailable',
+ 7 => 'No such domain', 
+ 8 => 'No such user', 
+16 => 'Authentication failure', 
+17 => 'Password change failure', 
+18 => 'Unsupported authentication type',
+19 => 'No reversibly encrypted password is stored for the user account',
+32 => 'Local users only', 
+33 => 'Password must be changed', 
+34 => 'Account disabled', 
+35 => 'Account expired', 
+36 => 'Account locked out', 
+37 => 'Invalid logon hours', 
+38 => 'Account restriction', 
+48 => 'Did not match remote access policy', 
+49 => 'Did not match connection request policy', 
+64 => 'Dial-in locked out', 
+65 => 'Dial-in disabled', 
+66 => 'Invalid authentication type', 
+67 => 'Invalid calling station', 
+68 => 'Invalid dial-in hours', 
+69 => 'Invalid called station', 
+70 => 'Invalid port type', 
+71 => 'Invalid restriction', 
+80 => 'No record',
+96 => 'Session timed out', 
+97 => 'Unexpected request', 
+);
+
 sub parse_ias {
   my $string = shift || return;
   return __PACKAGE__->new(@_)->parse($string);
@@ -606,6 +649,7 @@ sub new {
   my $package = shift;
   my %opts = @_;
   $opts{lc $_} = delete $opts{$_} for keys %opts;
+  $opts{enumerate} = 1 unless defined $opts{enumerate} and !$opts{enumerate};
   return bless \%opts, $package;
 }
 
@@ -622,6 +666,12 @@ sub parse {
     $record->{$attribute} = pack "H*", $record->{$attribute} if $record->{$attribute} =~ /^0x[0-9A-F]+$/i;
     $record->{$attribute} =~ s/[\x00-\x1F]//g;
     $record->{ $attributes{$attribute} } = delete $record->{$attribute};
+  }
+  if ( $self->{enumerate} ) {
+    $record->{'Packet-Type'} = $packet_types{ $record->{'Packet-Type'} }
+      if $record->{'Packet-Type'} and exists $packet_types{ $record->{'Packet-Type'} };
+    $record->{'Reason-Code'} = $reason_codes{ $record->{'Reason-Code'} }
+      if defined $record->{'Reason-Code'} and exists $reason_codes{ $record->{'Reason-Code'} };
   }
   @$record{qw/NAS-IP-Address User-Name Record-Date Record-Time Service-Name Computer-Name/} = @header;
   return $record;
@@ -644,7 +694,7 @@ Function Interface:
 
   while (<>) {
 	chomp;
-	my $record = parse_ias( $_ );
+	my $record = parse_ias( $_, enumerate => 0 );
 	next unless $record;
 	print Dumper( $record );
   }
@@ -655,7 +705,7 @@ Object Interface:
   use Data::Dumper;
   use Parse::IASLog;
 
-  my $ias = Parse::IASLog->new();
+  my $ias = Parse::IASLog->new( enumerate => 0 );
 
   while (<>) {
 	chomp;
@@ -682,7 +732,9 @@ Using the module automagically imports 'parse_ias' into your namespace.
 
 =item parse_ias
 
-Takes a string of IAS-formatted text. Returns a hashref on success or undef on failure.
+Takes a string of IAS-formatted text as the first parameter. Subsequent parameter pairs are treated as 
+options. See new() for full details regarding optional parameters.
+Returns a hashref on success or undef on failure.
 See below for the format of the hashref returned.
 
 =back
@@ -695,7 +747,10 @@ See below for the format of the hashref returned.
 
 =item new
 
-Creates a new Parse::IASLog object.
+Creates a new Parse::IASLog object. Takes one optional parameter:
+
+  'enumerate', set to a false value to disable the enumeration of 'Packet-Type' and
+	       'Reason-Code' attribute values;
 
 =back
 

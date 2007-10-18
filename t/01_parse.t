@@ -6,7 +6,7 @@ my $original = '10.10.10.10,client,06/04/1999,14:42:19,IAS,CLIENTCOMP,6,2,7,1,5,
 
 # Function Interface
 
-my $record1 = parse_ias( $original ) or die;
+my $record1 = parse_ias( $original, enumerate => 0 ) or die;
 
 ok( $record1->{'NAS-IP-Address'} eq '10.10.10.10', 'NAS-IP-Address' );
 ok( $record1->{'User-Name'} eq 'client', 'User-Name' );
@@ -23,5 +23,5 @@ ok( $record1->{'Framed-Protocol'} eq '1', 'Framed-Protocol' );
 ok( $record1->{'NAS-Port'} eq '9', 'NAS-Port' );
 ok( $record1->{'Calling-Station-ID'} eq '1', 'Calling-Station-ID' );
 
-ok( $record1->{'Packet-Type'} eq 'Accept-Request', 'Packet-Type' );
-ok( $record1->{'Reason-Code'} eq 'Success', 'Reason-Code' );
+ok( $record1->{'Packet-Type'} eq '1', 'Packet-Type' );
+ok( $record1->{'Reason-Code'} eq '0', 'Reason-Code' );
