@@ -15,13 +15,13 @@ ok( $record1->{'Record-Time'} eq '14:42:19', 'Record-Time' );
 ok( $record1->{'Service-Name'} eq 'IAS', 'Service-Name' );
 ok( $record1->{'Computer-Name'} eq 'CLIENTCOMP', 'Computer-Name' );
 
-ok( $record1->{'NAS-Port-Type'} eq '5', 'NAS-Port-Type' );
-ok( $record1->{'Service-Type'} eq '2', 'Service-Type' );
-ok( $record1->{'Tunnel-Medium-Type'} eq '1', 'Tunnel-Medium-Type' );
-ok( $record1->{'Tunnel-Type'} eq '1', 'Tunnel-Type' );
-ok( $record1->{'Framed-Protocol'} eq '1', 'Framed-Protocol' );
+ok( $record1->{'NAS-Port-Type'} eq 'Virtual (VPN)', 'NAS-Port-Type' );
+ok( $record1->{'Service-Type'} eq 'Framed', 'Service-Type' );
+ok( $record1->{'Tunnel-Medium-Type'} eq 'IP (IP version 4)', 'Tunnel-Medium-Type' );
+ok( $record1->{'Tunnel-Type'} eq 'Point-to-Point Tunneling Protocol (PPTP)', 'Tunnel-Type' );
+ok( $record1->{'Framed-Protocol'} eq 'PPP', 'Framed-Protocol' );
 ok( $record1->{'NAS-Port'} eq '9', 'NAS-Port' );
 ok( $record1->{'Calling-Station-ID'} eq '1', 'Calling-Station-ID' );
 
-ok( $record1->{'Packet-Type'} eq 'Accept-Request', 'Packet-Type' );
+ok( $record1->{'Packet-Type'} eq 'Access-Request', 'Packet-Type' );
 ok( $record1->{'Reason-Code'} eq 'Success', 'Reason-Code' );

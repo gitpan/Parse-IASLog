@@ -16,4 +16,4 @@ no_index:
     - t
 requires: 
   Exporter: 0
-version: 0.04
+version: 0.05
