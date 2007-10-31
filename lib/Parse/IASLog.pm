@@ -1,15 +1,14 @@
 package Parse::IASLog;
 
-use strict;
-
 # We export some stuff
 require Exporter;
-our @ISA = qw( Exporter );
-our @EXPORT = qw(parse_ias);
+@ISA = qw( Exporter );
+@EXPORT = qw(parse_ias);
 
+use strict;
 use vars qw($VERSION);
 
-$VERSION = '0.05';
+$VERSION = '1.00';
 
 my %attributes = qw(
 -90 MS-MPPE-Encryption-Types
