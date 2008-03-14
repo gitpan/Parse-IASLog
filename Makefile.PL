@@ -1,10 +1,14 @@
+use strict;
 use inc::Module::Install;
 name 'Parse-IASLog';
 author 'Chris Williams';
 version_from 'lib/Parse/IASLog.pm';
 abstract_from 'lib/Parse/IASLog.pm';
 license 'perl';
+author_tests 'xt';
 build_requires 'Test::More' => 0.47;
-requires 'warnings::compat' => 0 if $] < 5.006;
+requires 'strict' => 0;
 requires 'Exporter' => 0;
+requires 'vars' => 0;
+requires 'warnings::compat' => 0 if $] < 5.006;
 WriteAll;
