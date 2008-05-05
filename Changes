@@ -1,6 +1,9 @@
 Change log for Parse::IASLog
 ============================
 
+1.06	Mon May  5 08:47:04 BST 2008
+	- Removed kwalitee test, added license info
+
 1.04	Fri Mar 14 10:35:40 GMT 2008
 	- Author tests in xt/ 
 

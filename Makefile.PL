@@ -6,6 +6,7 @@ version_from 'lib/Parse/IASLog.pm';
 abstract_from 'lib/Parse/IASLog.pm';
 license 'perl';
 author_tests 'xt';
+perl_version 5.000;
 build_requires 'Test::More' => 0.47;
 requires 'strict' => 0;
 requires 'Exporter' => 0;
