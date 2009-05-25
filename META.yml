@@ -3,11 +3,12 @@ abstract: 'A parser for Microsoft IAS-formatted log entries.'
 author:
   - 'Chris Williams'
 build_requires:
+  ExtUtils::MakeMaker: 6.42
   Test::More: 0.47
 configure_requires:
-  ExtUtils::MakeMaker: 6.50
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.81'
+generated_by: 'Module::Install version 0.90'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -18,12 +19,18 @@ no_index:
     - examples
     - inc
     - t
+    - xt
+provides:
+  Parse::IASLog:
+    file: lib/Parse/IASLog.pm
+    version: 1.10
 requires:
   Exporter: 0
   perl: 5.6.0
   strict: 0
   vars: 0
 resources:
+  homepage: http://github.com/bingos/parse-iaslog/tree
   license: http://dev.perl.org/licenses/
   repository: git://github.com/bingos/parse-iaslog.git
-version: 1.08
+version: 1.10
